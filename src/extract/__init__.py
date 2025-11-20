@@ -1,1 +1,1 @@
-from ..extract.e_vendas import EVendas
+from extract.extract_vendas import ExtractVendas

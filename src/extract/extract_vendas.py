@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
 
-class EVendas:
+class ExtractVendas:
     def _connect_db(self):
         db_path = 'data/vendas.db' # conexão simples com sqlite3 ao banco local
 

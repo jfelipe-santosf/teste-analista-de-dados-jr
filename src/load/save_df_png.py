@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 class SaveDFPNG:
-    def save_df_png( df, name_png):
+    def save_df_png(self, df, name_png):
         path_png = f'output/{name_png}.png'
 
         # Criar figura proporcional à quantidade de linhas

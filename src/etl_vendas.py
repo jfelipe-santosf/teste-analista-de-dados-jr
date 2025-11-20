@@ -1,6 +1,6 @@
 import pandas as pd
-from extract import EVendas
-from transform import DataCleaner
+from extract import ExtractVendas
+from transform import DataCleaner, FeatureEngineer
 from load import SaveDFPNG
 
 class ETLVendas:
@@ -8,29 +8,33 @@ class ETLVendas:
         print("Iniciando processo ETL de Vendas...")
 
         self.df = pd.DataFrame()
-        self.run()
+        self._run()
 
-    def run(self):
-        self.Extract()
-        self.Transform()
-        self.Load(self.df)
+    def _run(self):
+        self._Extract()
+        self._Transform()
+        self._Load(self.df)
         print("Processo ETL concluído.")
 
-    def Extract(self):
-        '''Extrai os dados de vendas utilizando a classe EVendas.'''
-        evendas = EVendas()
-        df_vendas = evendas.extract_data()
+    def _Extract(self):
+        '''Extrai os dados de vendas utilizando a classe ExtractVendas.'''
+        ev = ExtractVendas()
+        df_vendas = ev.extract_data()
         print("Extração concluída.")
         self.df = df_vendas
     
-    def Transform(self):
-        data_cleaner = DataCleaner(self.df)
-        self.df = data_cleaner.cleaned_data
+    def _Transform(self):
+        dc = DataCleaner()
+        self.df = dc.clear_data(self.df)
         print("Limpeza concluída.")
+
+        fe = FeatureEngineer()
+        self.df = fe.apply_transforms(self.df)
     
-    def Load(self, df: pd.DataFrame):
+    def _Load(self, df: pd.DataFrame):
+        df.sort_values('id_cliente', inplace=True)
         sv_png = SaveDFPNG()
-        sv_png.save_df_png(df, 'vendas_cleaned')
+        sv_png.save_df_png(df[:9], 'vendas')
         print("Carregamento concluído. DataFrame salvo como PNG.")
 
 
