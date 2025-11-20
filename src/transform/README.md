@@ -1,0 +1,1 @@
+remover vendas duplicadas deixando a venda com maior valor
