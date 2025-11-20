@@ -1,25 +1,17 @@
 import matplotlib.pyplot as plt
 
 class SaveDFPNG:
-    def save_df_png( df, name_png, start=None, end=None, max_rows=None):
+    def save_df_png( df, name_png):
         path_png = f'output/{name_png}.png'
 
-        # Definir fatia do DF
-        if start is not None or end is not None:
-            df_plot = df[start:end]
-        elif max_rows is not None:
-            df_plot = df.head(max_rows)
-        else:
-            df_plot = df
-
         # Criar figura proporcional à quantidade de linhas
-        fig, ax = plt.subplots(figsize=(12, 0.4 * len(df_plot) + 1))
+        fig, ax = plt.subplots(figsize=(12, 0.4 * len(df) + 1))
         ax.axis('off')
 
         # Criar tabela
         tabela = ax.table(
-            cellText=df_plot.values,
-            colLabels=df_plot.columns,
+            cellText=df.values,
+            colLabels=df.columns,
             loc='center'
         )
 

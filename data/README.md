@@ -14,8 +14,10 @@ Este banco de dados foi gerado aleatoriamente por uma inteligência artificial p
 ### Tabela: vendas
 - **id_venda**: Identificador da venda (alguns valores podem ser duplicados).
 - **id_cliente**: Identificador do cliente associado à venda (chave estrangeira para `clientes.id_cliente`).
-- **data_venda**: Data da venda (últimos 12 meses).
-- **preco_total**: Preço total da venda.
+- **data_venda**: Data da venda (últimos 12 meses). 
+- **quantidade**: Quantidade de itens vendidos (1 a 5).
+- **preco_unitario**: Preço unitário do item (R$20,00 a R$3.000,00).
+- **desconto_percentual**: Percentual de desconto aplicado (0% a 20%).
 
 ## Observações
 - Os dados foram gerados aleatoriamente utilizando a biblioteca Faker e outras técnicas de simulação.
@@ -31,13 +33,6 @@ Este banco de dados foi gerado aleatoriamente por uma inteligência artificial p
   - **corporativo**
   - **franquia**
   - **distribuidor**
-- Respectivamente tendo os valores entre:
-  - 50 a 120
-  - 50 a 300
-  - 500 a 3.000
-  - 50 a 3.000
-  - 1.500 a 5.000
-  - 3.000 a 4.500
 
 ## Localização do Arquivo
 O arquivo do banco de dados está localizado em:
