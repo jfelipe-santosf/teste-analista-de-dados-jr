@@ -1,2 +1,3 @@
 from transform.data_cleaner import DataCleaner
 from transform.feature_engineer import FeatureEngineer
+from transform.data_aggregator import DataAggregator
