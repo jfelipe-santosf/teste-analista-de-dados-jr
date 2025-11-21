@@ -15,6 +15,25 @@ class ExtractVendas:
         if self.conn:
             self.conn.close()
 
+    def _execute_query(self):
+        query = open('data/select.sql', 'r').read() # Lê a query SQL do arquivo externo
+        try:
+        # Executa a consulta e armazena o resultado em um DataFrame
+            df = pd.read_sql_query(query, self.conn)
+        except Exception as e:
+            print(f"Erro ao executar a consulta SQL: {e}")
+            raise
+        finally:
+            self._close_db()
+
+        if df.empty:
+            print("Nenhum dado extraído do banco de dados.")
+            raise ValueError("DataFrame vazio retornado pela consulta SQL.")
+        else:
+            print(f"{len(df)} registros extraídos do banco de dados.")
+            return df
+        
+
     def extract_data(self):
         ''' Extrai dados de vendas e clientes do banco de dados SQLite e retorna um DataFrame.
         Fonte: Banco de dados SQLite localizado em 'data/vendas.db'.
@@ -23,35 +42,4 @@ class ExtractVendas:
         '''
         self._connect_db()
 
-        # Consulta SQL para extrair os dados necessários
-        query = """
-        SELECT
-            c.id_cliente,
-            v.id_venda,
-            c.nome AS nome,
-            c.email AS email,
-            c.estado AS estado,
-            c.segmento AS segmento,
-            v.data_venda,
-            v.quantidade,
-            v.preco_unitario,
-            v.desconto_percentual
-        FROM clientes c
-        JOIN vendas v ON c.id_cliente = v.id_cliente
-        """
-
-        # Executa a consulta e armazena o resultado em um DataFrame
-        try:
-            df = pd.read_sql_query(query, self.conn)
-        except Exception as e:
-            print(f"Erro ao executar a consulta SQL: {e}")
-            raise
-        finally:
-            self._close_db()
-        
-        if df.empty:
-            print("Nenhum dado extraído do banco de dados.")
-        else:
-            print(f"{len(df)} registros extraídos do banco de dados.")
-
-        return df
+        return self._execute_query()

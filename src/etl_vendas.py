@@ -43,6 +43,8 @@ class ETLVendas:
         sv_png = SaveDFPNG()
         sv_png.save_df_png(self.df[:7], 'etl_vendas')
         sv_png.save_df_png(self.df_agg, 'etl_vendas_aggregated')
+        sv_png.save_graph(self.df_agg, 'estado', 'AOV', 'grafico_max_aov_estado')
+        sv_png.save_graph(self.df_agg, 'segmento', 'AOV', 'grafico_max_aov_segmento')
 
         lt_mongo = LoadToMongo()
         lt_mongo.load_data(self.df, collection_name="vendas_clientes", embedded_cols={

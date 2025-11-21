@@ -4,9 +4,8 @@ class FeatureEngineer:
     def _add_quarter(self):
         '''Adiciona uma coluna `trimestre` baseada na coluna `data_venda`.'''
 
-        self.df['trimestre'] = pd.to_datetime(self.df['data_venda']).dt.quarter
-        #soma total de cada semestre
-        amount = [self.df['trimestre'].value_counts().get(i, 0) for i in range(1,5)]
+        self.df['trimestre'] = pd.to_datetime(self.df['data_venda']).dt.quarter # to_datetime converte para datetime e dt.quarter extrai o trimestre
+        amount = [self.df['trimestre'].value_counts().get(i, 0) for i in range(1,5)] #soma total de cada semestre
 
         print("Coluna 'trimestre' adicionada ao DataFrame.")
         print(f"Registros por trimestre: \n1º: {amount[0]}, \n2º: {amount[1]}, \n3º: {amount[2]}, \n4º: {amount[3]}.")
