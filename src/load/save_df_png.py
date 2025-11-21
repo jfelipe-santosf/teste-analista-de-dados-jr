@@ -4,6 +4,8 @@ class SaveDFPNG:
     def save_df_png(self, df, name_png):
         path_png = f'output/{name_png}.png'
 
+        df = df.sort_values(by=df.columns[0]) # Ordenar pela primeira coluna
+
         # Criar figura proporcional à quantidade de linhas
         fig, ax = plt.subplots(figsize=(12, 0.4 * len(df) + 1))
         ax.axis('off')

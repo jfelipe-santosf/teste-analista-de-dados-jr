@@ -1,7 +1,7 @@
 import pandas as pd
 from extract import ExtractVendas
 from transform import DataCleaner, FeatureEngineer, DataAggregator
-from load import SaveDFPNG
+from load import SaveDFPNG, LoadToMongo
 
 class ETLVendas:
     def __init__(self):
@@ -13,8 +13,7 @@ class ETLVendas:
     def _run(self):
         self._Extract()
         self._Transform()
-        self._Load(self.df[:9])
-        self._Load(self.df_agg, name="etl_vendas_aggregated")
+        self._Load()
         print("Processo ETL concluído.")
 
     def _Extract(self):
@@ -40,11 +39,17 @@ class ETLVendas:
         print("Novo DataFrame agregado criado."
               +"\n=========================")
     
-    def _Load(self, df: pd.DataFrame, name: str = "etl_vendas"):
-        if 'id_cliente' in df.columns:
-            df = df.sort_values('id_cliente', ascending=True).reset_index(drop=True)
+    def _Load(self):
         sv_png = SaveDFPNG()
-        sv_png.save_df_png(df, name)
+        sv_png.save_df_png(self.df[:7], 'etl_vendas')
+        sv_png.save_df_png(self.df_agg, 'etl_vendas_aggregated')
+
+        lt_mongo = LoadToMongo()
+        lt_mongo.load_data(self.df, collection_name="vendas_clientes", embedded_cols={
+            "venda_info": ["id_venda", "data_venda", "trimestre", "quantidade", "preco_unitario", "desconto_percentual", "valor_liquido"],
+        })
+        lt_mongo.load_data(self.df_agg, collection_name="analise_vendas")
+
         print("Carregamento concluído. DataFrame salvo como PNG.")
 
 
